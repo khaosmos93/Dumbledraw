@@ -5,12 +5,9 @@ import logging
 import ROOT
 import copy
 logger = logging.getLogger(__name__)
+import yaml
 
-mass_dict = {
-    "heavy_mass": [320],
-    "light_mass_fine": [60,100],
-    "light_mass_coarse": [60],
-}
+mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
 
 class Rootfile_parser(object):
 
@@ -67,33 +64,33 @@ class Rootfile_parser(object):
 
     
 
-    def __init__(self, inputrootfilename, analysis, epoch, variable, mass):
+    def __init__(self, inputrootfilename, variable):
         self._rootfilename = inputrootfilename
         self._rootfile = ROOT.TFile(self._rootfilename, "READ")
-        self._type = "control"
-        self._analysis = analysis
-        self._epoch = epoch
         self._variable = variable
-        self._mass = mass
 
     @property
     def rootfile(self):
         return self._rootfile
 
-    def get(self, channel, category, process):
-        hist_hash = "#{channel}#{category}#{process}#{analysis}#{epoch}#{variable}#{mass}#".format(
+    def get(self, channel, process, category=None, shape_type="Nominal"):
+        dataset = self._dataset_map[process]
+        if category is None:
+            category = "" if "data" in process else "-" + self._process_map[process]
+        else:
+            category = "-" + category if "data" in process else "-" + "-".join([self._process_map[process], category])
+        hist_hash = "{dataset}#{channel}{category}#{shape_type}#{variable}".format(
+            dataset=dataset,
             channel=channel,
             category=category,
-            process=process,
-            analysis=self._analysis,
-            epoch=self._epoch,
-            variable=self._variable,
-            mass=self._mass)
+            shape_type=shape_type,
+            variable=self._variable)
         logger.debug("Try to access %s in %s" % (hist_hash,
                                                  self._rootfilename))
-        print "rootfile: " , self._rootfile.Get(hist_hash), " hash: ", hist_hash
+        print("rootfile: " , self._rootfile.Get(hist_hash), " hash: ", hist_hash)
 
         return self._rootfile.Get(hist_hash)
+
     
 
     def list_contents(self):
