@@ -113,7 +113,7 @@ class Plot(object):
             latex2.SetTextAngle(0)
             latex2.SetTextColor(R.kBlack)
             latex2.SetTextSize(0.03)
-            latex2.DrawLatex(0.755, 0.90, text)
+            latex2.DrawLatex(0.755, 0.89, text)
         elif print_inside:
             latex2 = R.TLatex()
             latex2.SetNDC()
