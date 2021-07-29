@@ -85,10 +85,10 @@ class Plot(object):
 
     def inlet_legend(self, index):
         if not isinstance(index, int):
-            logger.fatal("Legend index is supposed to be of type int!")
+            logger.fatal("Inlet Legend index is supposed to be of type int!")
             raise Exception
         if index >= len(self._legends):
-            logger.fatal("Legend index is out of range!")
+            logger.fatal("Inlet Legend index is out of range!")
             raise Exception
         return self._inlets_legends[index]
     
@@ -825,24 +825,13 @@ class Subplot(object):
 
 
 class InletPlot(Subplot):
+    """
+    Create an Inlet plot, where the position of the pad is set via the contructor, everything else is identical to a normal subplot
+    """
     def __init__(self, name, x_1, x_2, y_1, y_2):
         logger.debug(
             "Booking inlet plot with size %s x %s" % (x_2 - x_1, y_2 - y_1))
         self._pad = R.TPad("pad_" + str(name), "pad_" + str(name), x_1, y_1, x_2, y_2)
-        '''
-        if lower_bound==0.0:
-            lower_bound+=self._pad.GetBottomMargin()
-        if upper_bound==1.0:
-            upper_bound-=self._pad.GetTopMargin()
-        '''
-        # drawspaceheight = 1.0 - self._pad.GetBottomMargin(
-        # ) - self._pad.GetTopMargin()
-        # lower_margin = self._pad.GetBottomMargin(
-        # ) + lower_bound * drawspaceheight
-        # upper_margin = self._pad.GetTopMargin() + (
-        #     1 - upper_bound) * drawspaceheight
-        # self._pad.SetBottomMargin(lower_margin)
-        # self._pad.SetTopMargin(upper_margin)
         self._pad.SetFillStyle(4000)
         self._pad.Draw()
 
