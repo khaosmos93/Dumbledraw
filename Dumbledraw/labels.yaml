@@ -417,7 +417,7 @@ legend_label:
     EMB: '#tau embedded'
     EMBCMB: 'Z/t#bar{t}/VV#rightarrow#tau#tau'
     TotalBkg: 'Background' 
-    REST: 'Other Bkg.'
+    REST: 'Sim. Bkg.'
     ZLL: 'Z#rightarrowll'
     ZL: 'Z#rightarrowll'
     ZJ: 'Z#rightarrowll (jet#rightarrow^{}#tau_{h})'
