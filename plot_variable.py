@@ -134,7 +134,6 @@ def main(args):
 				plot.subplot(0).setXlabel(variable)
 				plot.subplot(0).setYlabel("N_{events}")
 				plot.subplot(1).setYlabel("ratio to bkg")
-	
 				plot.scaleXTitleSize(0.8)
 				plot.scaleXLabelSize(0.8)
 				plot.scaleYTitleSize(0.8)

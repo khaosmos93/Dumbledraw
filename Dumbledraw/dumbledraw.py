@@ -4,12 +4,28 @@
 import argparse
 import logging
 import copy
+from multiprocessing import Value
 import ROOT as R
 import math
 #import rootfile_parser
 logger = logging.getLogger(__name__)
 
 import styles
+import os
+
+answer = (os.environ["answer"])
+
+file_name = "temp.txt"
+text = open(file_name, "r")
+run_listy = text.read()
+text.close()
+
+def Convert(string):
+    li = list(string.split(" "))
+    return li
+
+run_list = (Convert(run_listy))
+run_list = run_list[:-1]
 
 
 class Plot(object):
@@ -49,7 +65,7 @@ class Plot(object):
 
     @property
     def nlegends(self):
-        return len(self._legends)
+        return len(self._legends) 
 
     def subplot(self, index):
         if not isinstance(index, int):
@@ -162,7 +178,7 @@ class Plot(object):
                       name,
                       markerstyle,
                       markershape=20,
-                      markercolor=R.kBlack,
+                      markercolor=R.kRed,
                       linecolor=1,
                       fillcolor=0,
                       linewidth=1,
@@ -768,8 +784,7 @@ class Subplot(object):
             logger.fatal("changeYLabels requires list as input!")
             raise Exception
         self._changeYlabels = replacement_list
-
-
+          
 class Line(object):
     def __init__(self, reference_subplot, xmin, ymin, xmax, ymax, color, linestyle, linewidth, subplots):
         if not isinstance(reference_subplot, int):

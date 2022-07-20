@@ -3,6 +3,21 @@ import logging
 import yaml
 from itertools import cycle
 logger = logging.getLogger(__name__)
+import os
+
+answer = (os.environ["answer"])
+
+file_name = "run_group.txt"
+text = open(file_name, "r")
+run_listy = text.read()
+text.close()
+
+def Convert(string):
+    li = list(string.split(" "))
+    return li
+
+run_list = (Convert(run_listy))
+run_list = run_list[:-1]
 
 COL_STORE = []
 labels_path = 'Dumbledraw/Dumbledraw/labels.yaml'
@@ -22,6 +37,7 @@ legend_label_dict = yaml.load(open(labels_path))['legend_label']
 x_label_dict = yaml.load(open(labels_path))['x_label']
 
 mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
+
 
 color_dict = {
     "ggH": R.TColor.GetColor("#fed766"),
@@ -75,6 +91,25 @@ color_dict = {
     "unc": CreateTransparentColor(12, 0.4)
 
 }
+
+counter =0.0
+
+for i in run_list:
+    counter+=1.0
+    #color_dict[run_list[i]] = R.TColor.GetColor(int(255*(i/len(run_list))), 20, int(255*(1-(i/len(run_list)))))
+    #color_dict[i] = R.TColor.GetColor(255-(255/counter), 20, 255/counter)
+    if counter%2:
+        r=int(255.0-255.0*(counter/len(run_list)))
+        b = int(255.0*(counter/len(run_list)))
+        g = 0
+    else:
+        r=int(255.0-255.0*(counter/len(run_list)))
+        g = int(255.0*(counter/len(run_list)))
+        b = 20
+    color_dict[i] = R.TColor.GetColor(r, g, b)
+print("HERE IS THE COLOR DICT: ",color_dict)
+
+
 i=0
 colors=["#8B008B", "#008a8a", "#8a0022", "#22008a","#8a8a00"]
 sig_colors=cycle(colors)
@@ -287,7 +322,7 @@ def ModTDRStyle(width=600, height=600, t=0.06, b=0.12, l=0.16, r=0.04):
     R.gStyle.SetNdivisions(506, 'XYZ')  # default 510
 
     # Some marker properties not set in the default tdr style
-    R.gStyle.SetMarkerColor(R.kBlack)
+    #R.gStyle.SetMarkerColor(R.kBlack)
     R.gStyle.SetMarkerSize(1.0)
 
     R.gStyle.SetLabelOffset(0.007, 'YZ')

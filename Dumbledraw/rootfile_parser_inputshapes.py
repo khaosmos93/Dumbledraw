@@ -6,8 +6,28 @@ import ROOT
 import copy
 logger = logging.getLogger(__name__)
 import yaml
+import os
 
 mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["plots"]
+
+answer = (os.environ["answer"])
+
+if answer == "no":
+    run_numb = (os.environ["rn_ber"])
+    print(run_numb)
+    print(type(run_numb))
+
+file_name = "temp.txt"
+text = open(file_name, "r")
+run_listy = text.read()
+text.close()
+
+def Convert(string):
+    li = list(string.split(" "))
+    return li
+
+run_list = (Convert(run_listy))
+run_list = run_list[:-1]
 
 class Rootfile_parser(object):
 
@@ -73,12 +93,17 @@ class Rootfile_parser(object):
     def rootfile(self):
         return self._rootfile
 
-    def get(self, channel, process, category=None, shape_type="Nominal"):
+    def get(self, channel, process, category, shape_type="Nominal"):
+        if answer == "no":
+            category = run_numb
+        elif answer == "yes":
+            if process != "data":
+                category = None
         dataset = self._dataset_map[process]
         if category is None:
             category = "" if "data" in process else "-" + self._process_map[process]
         else:
-            category = "-" + category if "data" in process else "-" + "-".join([self._process_map[process], category])
+            category = "-" + category if "data" in process else "-" + "-".join([category, self._process_map[process]])
         hist_hash = "{dataset}#{channel}{category}#{shape_type}#{variable}".format(
             dataset=dataset,
             channel=channel,
@@ -88,10 +113,10 @@ class Rootfile_parser(object):
         logger.debug("Try to access %s in %s" % (hist_hash,
                                                  self._rootfilename))
         print("rootfile: " , self._rootfile.Get(hist_hash), " hash: ", hist_hash)
+        print(hist_hash)
 
         return self._rootfile.Get(hist_hash)
 
-    
 
     def list_contents(self):
         return [key.GetTitle() for key in self._rootfile.GetListOfKeys()]
