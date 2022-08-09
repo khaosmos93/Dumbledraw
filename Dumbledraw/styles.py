@@ -5,19 +5,11 @@ from itertools import cycle
 logger = logging.getLogger(__name__)
 import os
 
-answer = (os.environ["answer"])
-
-file_name = "run_group.txt"
-text = open(file_name, "r")
-run_listy = text.read()
-text.close()
-
-def Convert(string):
-    li = list(string.split(" "))
-    return li
-
-run_list = (Convert(run_listy))
-run_list = run_list[:-1]
+#loads the plot names from the text file into a list
+plot_names = list()
+data_file_names = open("data_plot_names.txt", "r")
+plot_names = [line.strip() for line in data_file_names.readlines() if line]
+data_file_names.close()
 
 COL_STORE = []
 labels_path = 'Dumbledraw/Dumbledraw/labels.yaml'
@@ -40,6 +32,7 @@ mass_dict= yaml.load(open("shapes/mass_dict_nmssm.yaml"), Loader=yaml.Loader)["p
 
 
 color_dict = {
+    "data": R.TColor.GetColor(0,0,0),
     "ggH": R.TColor.GetColor("#fed766"),
     "qqH": R.TColor.GetColor("#2ab7ca"),
     "ggH125": R.TColor.GetColor("#BF2229"),
@@ -92,22 +85,20 @@ color_dict = {
 
 }
 
-counter =0.0
-
-for i in run_list:
-    counter+=1.0
-    #color_dict[run_list[i]] = R.TColor.GetColor(int(255*(i/len(run_list))), 20, int(255*(1-(i/len(run_list)))))
-    #color_dict[i] = R.TColor.GetColor(255-(255/counter), 20, 255/counter)
-    if counter%2:
-        r=int(255.0-255.0*(counter/len(run_list)))
-        b = int(255.0*(counter/len(run_list)))
-        g = 0
-    else:
-        r=int(255.0-255.0*(counter/len(run_list)))
-        g = int(255.0*(counter/len(run_list)))
-        b = 20
-    color_dict[i] = R.TColor.GetColor(r, g, b)
-print("HERE IS THE COLOR DICT: ",color_dict)
+#creates different colors for the different run numbers
+if plot_names[0] != "data":
+    counter =0.0
+    for plot in plot_names:
+        counter+=1.0
+        if counter%2:
+            r=int(255.0-255.0*(counter/len(plot_names)))
+            b = int(255.0*(counter/len(plot_names)))
+            g = 0
+        else:
+            r=int(255.0-255.0*(counter/len(plot_names)))
+            g = int(255.0*(counter/len(plot_names)))
+            b = 20
+        color_dict[plot] = R.TColor.GetColor(r, g, b)
 
 
 i=0
@@ -413,6 +404,7 @@ def DrawCMSLogo(pad,
                 relPosY,
                 relExtraDY,
                 extraText2='',
+                extraText3='',
                 cmsTextSize=0.8):
     """Blah
     
@@ -435,7 +427,10 @@ def DrawCMSLogo(pad,
 
     writeExtraText = len(extraText) > 0
     writeExtraText2 = len(extraText2) > 0
+    writeExtraText3 = len(extraText3) > 0
     extraTextFont = 52
+    extraTextFont2and3 = 42
+
 
     # text sizes and text offsets with respect to the top frame
     # in unit of the top margin size
@@ -509,9 +504,15 @@ def DrawCMSLogo(pad,
             latex.DrawLatex(posX_, posY_ - relExtraDY * cmsTextSize * t,
                             extraText)
             if writeExtraText2:
+                latex.SetTextFont(extraTextFont2and3)
                 latex.DrawLatex(posX_,
                                 posY_ - 1.8 * relExtraDY * cmsTextSize * t,
                                 extraText2)
+            if writeExtraText3:
+                latex.SetTextFont(extraTextFont2and3)
+                latex.DrawLatex(posX_,
+                                posY_ - 2.6 * relExtraDY * cmsTextSize * t,
+                                extraText3)
     elif writeExtraText:
         if iPosX == 0:
             posX_ = l + relPosX * (1 - l - r)

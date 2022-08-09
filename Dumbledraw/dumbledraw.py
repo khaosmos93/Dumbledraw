@@ -13,21 +13,6 @@ logger = logging.getLogger(__name__)
 import styles
 import os
 
-answer = (os.environ["answer"])
-
-file_name = "temp.txt"
-text = open(file_name, "r")
-run_listy = text.read()
-text.close()
-
-def Convert(string):
-    li = list(string.split(" "))
-    return li
-
-run_list = (Convert(run_listy))
-run_list = run_list[:-1]
-
-
 class Plot(object):
     def __init__(self, splitlist, style="none", **kwargs):
         styles.SetStyle(style, **kwargs)
@@ -119,14 +104,27 @@ class Plot(object):
                 begin_left = 0.145
             latex2.DrawLatex(begin_left, 0.960, text)
 
-    def DrawCMS(self,position=0, preliminary=True):
+    def DrawCMS(self,variable,channel, position=0, preliminary=True):
         if preliminary:
             additional_string = 'Preliminary'
+
+            #prints the eta range for each detector variable
+            if '_barrel' in variable and 'mm' in channel: detector_eta_range_string = '|#eta| < 1.2'  
+            elif '_endcap' in variable and 'mm' in channel: detector_eta_range_string = '|#eta| > 1.2'  
+            elif '_barrel' in variable and 'e' in channel: detector_eta_range_string = '|#eta| < 1.44'  
+            elif '_endcap' in variable and 'e' in channel: detector_eta_range_string = '|#eta| > 1.57' 
+            else: detector_eta_range_string = ''
+
+            #prints the number of primary vertices for each detector variable
+            if '_nv015' in variable: npv_string = 'npv < 15'
+            elif '_nv1530' in variable: npv_string = '15 < npv < 30'
+            elif '_nv3045' in variable: npv_string = '30 < npv < 45'
+            else: npv_string = ''
         else:
             additional_string = ""
         if position==0:
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
-                               0.045, 0.05, 1.0, '', 0.6)
+                               0.045, 0.05, 1.0, detector_eta_range_string, npv_string, 0.6)
         elif position=="outside":
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 0,
                                0.095, 0.05, 1.0, '', 0.6)
