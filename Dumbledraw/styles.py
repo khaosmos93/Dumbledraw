@@ -405,6 +405,8 @@ def DrawCMSLogo(pad,
                 relExtraDY,
                 extraText2='',
                 extraText3='',
+                extraText4='',
+                extraText5='',
                 cmsTextSize=0.8):
     """Blah
     
@@ -428,8 +430,10 @@ def DrawCMSLogo(pad,
     writeExtraText = len(extraText) > 0
     writeExtraText2 = len(extraText2) > 0
     writeExtraText3 = len(extraText3) > 0
+    writeExtraText4 = len(extraText4) > 0
+    writeExtraText5 = len(extraText5) > 0
     extraTextFont = 52
-    extraTextFont2and3 = 42
+    extraTextFont2 = 42
 
 
     # text sizes and text offsets with respect to the top frame
@@ -504,15 +508,25 @@ def DrawCMSLogo(pad,
             latex.DrawLatex(posX_, posY_ - relExtraDY * cmsTextSize * t,
                             extraText)
             if writeExtraText2:
-                latex.SetTextFont(extraTextFont2and3)
+                latex.SetTextFont(extraTextFont2)
                 latex.DrawLatex(posX_,
                                 posY_ - 1.8 * relExtraDY * cmsTextSize * t,
                                 extraText2)
             if writeExtraText3:
-                latex.SetTextFont(extraTextFont2and3)
+                latex.SetTextFont(extraTextFont2)
                 latex.DrawLatex(posX_,
                                 posY_ - 2.6 * relExtraDY * cmsTextSize * t,
                                 extraText3)
+            if writeExtraText4:
+                latex.SetTextFont(extraTextFont2)
+                latex.DrawLatex(posX_,
+                                posY_ - 3.4 * relExtraDY * cmsTextSize * t,
+                                extraText4)
+            if writeExtraText5:
+                latex.SetTextFont(extraTextFont2)
+                latex.DrawLatex(posX_,
+                                posY_ - 4.2 * relExtraDY * cmsTextSize * t,
+                                extraText5)
     elif writeExtraText:
         if iPosX == 0:
             posX_ = l + relPosX * (1 - l - r)

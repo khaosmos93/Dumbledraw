@@ -75,7 +75,6 @@ class Rootfile_parser(object):
         return self._rootfile
 
     def get(self, channel, process, category, shape_type="Nominal"):
-        print(category)
         dataset = self._dataset_map[process]
         if category == "None":
             category = "-" + self._process_map[process]

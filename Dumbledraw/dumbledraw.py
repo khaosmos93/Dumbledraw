@@ -120,11 +120,31 @@ class Plot(object):
             elif '_nv1530' in variable: npv_string = '15 < npv < 30'
             elif '_nv3045' in variable: npv_string = '30 < npv < 45'
             else: npv_string = ''
+
+            #prints the charge of the Boson
+            if '_pos' in variable: charge_string = 'q > 0'
+            elif '_neg' in variable: charge_string = 'q < 0'
+            else: charge_string = ''
+
+            #prints the isolation region for each plot
+            if '_isoSR' in variable and channel == "mmet": iso_string = 'iso < 0.15'
+            elif '_isoSR' in variable and "_barrel": iso_string = 'iso < 0.0478+0.506/pt'
+            elif '_isoSR' in variable and "_endcap": iso_string = 'iso < 0.0658+0.963/pt'
+            elif '_iso5' in variable: iso_string = '0.20 < iso < 0.25'
+            elif '_iso6' in variable: iso_string = '0.20 < iso < 0.25'
+            elif '_iso7' in variable: iso_string = '0.25 < iso < 0.30'
+            elif '_iso8' in variable: iso_string = '0.30 < iso < 0.35'
+            elif '_iso9' in variable: iso_string = '0.35 < iso < 0.40'
+            elif '_iso10' in variable: iso_string = '0.40 < iso < 0.45'
+            elif '_iso11' in variable: iso_string = '0.45 < iso < 0.50'
+            elif '_iso12' in variable: iso_string = '0.55 < iso < 0.60'
+            elif '_iso13' in variable: iso_string = '0.60 < iso < 0.65'
+            else: iso_string = ''
         else:
             additional_string = ""
         if position==0:
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 11,
-                               0.045, 0.05, 1.0, detector_eta_range_string, npv_string, 0.6)
+                               0.045, 0.05, 1.0, detector_eta_range_string, charge_string, iso_string, npv_string, 0.6)
         elif position=="outside":
             styles.DrawCMSLogo(self._subplots[0]._pad, 'CMS', additional_string , 0,
                                0.095, 0.05, 1.0, '', 0.6)

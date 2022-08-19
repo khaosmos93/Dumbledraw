@@ -365,6 +365,7 @@ x_label:
 
     # Lepton-MET quantities
     mt_uncorrected: 'Transverse mass m_{T}(#mu_{1}, #slash{E}_{T}) (PUPPI) / GeV'
+    ptOverMt: 'p_{T} Over Transverse Mass'
     mt_1: 'Transverse mass m_{T}(#scale[0.85]{e}_{1}, #slash{E}_{T}) (PF) / GeV'
     mt_2: 'Transverse mass m_{T}(#scale[0.85]{e}_{2}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
@@ -546,6 +547,8 @@ x_label:
     puppimetphi: 'Missing transverse Energy (Puppi) #varphi'
 
     # Lepton-MET quantities
+    mt_uncorrected: 'Transverse mass m_{T}(#scale[0.85]{e}_{1}, #slash{E}_{T}) (PUPPI) / GeV'
+    ptOverMt: 'p_{T} Over Transverse Mass'
     mt_1: 'Transverse mass m_{T}(#scale[0.85]{e}_{1}, #slash{E}_{T}) (PF) / GeV'
     mt_2: 'Transverse mass m_{T}(#scale[0.85]{e}_{2}, #slash{E}_{T}) (PF) / GeV'
     mt_tot: 'Total transverse mass m_{T}^{tot} (PF) / GeV'
