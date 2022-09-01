@@ -111,8 +111,8 @@ class Plot(object):
             #prints the eta range for each detector variable
             if '_barrel' in variable and 'mm' in channel: detector_eta_range_string = '|#eta| < 1.2'  
             elif '_endcap' in variable and 'mm' in channel: detector_eta_range_string = '|#eta| > 1.2'  
-            elif '_barrel' in variable and 'e' in channel: detector_eta_range_string = '|#eta| < 1.44'  
-            elif '_endcap' in variable and 'e' in channel: detector_eta_range_string = '|#eta| > 1.57' 
+            elif '_barrel' in variable and 'e' in channel: detector_eta_range_string = '|#eta%s| < 1.479' % "_{SC}"
+            elif '_endcap' in variable and 'e' in channel: detector_eta_range_string = '|#eta%s| > 1.479' % "_{SC}"
             else: detector_eta_range_string = ''
 
             #prints the number of primary vertices for each detector variable
@@ -865,7 +865,7 @@ class Legend(object):
         self._textsizescale = 1.
         self._ncolumns = 1
         self._FillColor = 0
-        self._alpha = 1.0
+        self._alpha = 0.0
 
     def add_entry(self, subplot_index, histname, label, style):
         if not isinstance(subplot_index, int):
